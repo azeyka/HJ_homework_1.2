@@ -38,5 +38,47 @@
   		</div>
   	</div>
   </div>
+  
+  <script>
+    const mediaplayer = document.getElementsByClassName('mediaplayer')[0],
+          audio = mediaplayer.getElementsByTagName('audio')[0],
+          btns = mediaplayer.getElementsByTagName('button'),
+          title = mediaplayer.getElementsByClassName('title')[0]
+          playlist = [
+            'mp3/LA%20Chill%20Tour.mp3',
+            'mp3/LA%20Fusion%20Jam.mp3',
+            'mp3/This%20is%20it%20band.mp3'
+          ];
+    let audioId = 0;
+    
+    function click() {
+      if (this.classList.contains('playstate')) {
+        mediaplayer.classList.toggle('play');
+        mediaplayer.classList.contains('play') ? audio.play() : audio.pause();
+      } else if (this.classList.contains('stop')) {
+        mediaplayer.classList.remove('play');
+        audio.pause();
+        audio.currentTime = 0;
+      } else if (this.classList.contains('next')) {
+        audioId += 1;
+        if (playlist[audioId] === undefined) audioId = 0;
+        changeAudio(audioId);
+      } else if (this.classList.contains('back')) {
+        audioId === 0 ? audioId = playlist.length - 1 : audioId -= 1;
+        changeAudio(audioId);
+      };
+    };
+    
+    function changeAudio(id) {
+      audio.src = playlist[id]
+      const newTitle = audio.src.replace(/%20/g, ' ').match('[^"]*/(.*?)\.mp3', 'i')[1]
+      title.title = newTitle;
+      if (mediaplayer.classList.contains('play')) audio.play();
+    };
+    
+    for (const btn of btns) {
+      btn.onclick = click; 
+    };
+  </script>
 </body>
 </html>
