@@ -38,7 +38,15 @@
   <script>
     const btns = document.getElementsByClassName("drum-kit__drum");
     function play() {
-      this.getElementsByTagName('audio')[0].play();
+      Array.from(btns).forEach((btn) => {
+        const audio = btn.getElementsByTagName('audio')[0];
+        if (btn === this) {
+          audio.play();
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+        };
+      }); 
     };
     for (const btn of btns) {
       btn.onclick = play;
